@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Socket",
+        "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
+        "state": {
+          "branch": null,
+          "revision": "fb4e74cd8eb3ce4a2b860fbf727b2dada796d77d",
+          "version": "1.0.22"
+        }
+      },
+      {
+        "package": "SwiftHttpServer",
+        "repositoryURL": "https://github.com/bjtj/swift-http-server.git",
+        "state": {
+          "branch": null,
+          "revision": "d9a109e23e372290365f15a3099a30080d36affd",
+          "version": "0.1.8"
+        }
+      },
+      {
+        "package": "SwiftUpnpTools",
+        "repositoryURL": "https://github.com/bjtj/swift-upnp-tools.git",
+        "state": {
+          "branch": null,
+          "revision": "570ff20bbeea244f4b42a013929af5031a86d5b0",
+          "version": "0.1.0"
+        }
+      },
+      {
+        "package": "SwiftXml",
+        "repositoryURL": "https://github.com/bjtj/swift-xml.git",
+        "state": {
+          "branch": null,
+          "revision": "2a922fbc2cc7a68026ed180448b5ddbfd19d5774",
+          "version": "0.1.6"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

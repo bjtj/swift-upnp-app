@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
         "state": {
           "branch": null,
-          "revision": "fb4e74cd8eb3ce4a2b860fbf727b2dada796d77d",
-          "version": "1.0.22"
+          "revision": "c9894fd117457f1d006575fbfb2fdfd6f79eac03",
+          "version": "1.0.200"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/bjtj/swift-http-server.git",
         "state": {
           "branch": null,
-          "revision": "9c1e19a015f8b024cbf1ddbc670285bcdf1c64cf",
-          "version": "0.1.10"
+          "revision": "5ff1574bcb086dd6b5fa8a09aac974f285a0fedb",
+          "version": "0.1.11"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/bjtj/swift-upnp-tools.git",
         "state": {
           "branch": null,
-          "revision": "9525a142ded26cb347abac830921ed0c77ce7cb3",
-          "version": "0.1.6"
+          "revision": "d4a54212e09b5da8d1e7c4d705a14a6e6b49b532",
+          "version": "0.1.8"
         }
       },
       {

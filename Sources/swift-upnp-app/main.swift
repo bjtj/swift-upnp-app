@@ -12,24 +12,24 @@ func main() {
 
     var done = false
 
-    let cp = UPnPControlPoint(port: 0)
+    let cp = UPnPControlPoint(httpServerBindPort: 0)
     cp.run()
 
     cp.onDeviceAdded {
         (device) in
-        print("device added -- \(device.udn ?? "nil") / \(device.friendlyName ?? "nil")")
+        print("Device added -- \(device.udn ?? "nil") / \(device.friendlyName ?? "nil")")
     }
 
     cp.onDeviceRemoved {
         (device) in
-        print("device removed -- \(device.udn ?? "nil") / \(device.friendlyName ?? "nil")")
+        print("Device removed -- \(device.udn ?? "nil") / \(device.friendlyName ?? "nil")")
     }
 
     cp.onEventProperty {
         (sid, properties) in
-        print("event notify -- sid: \(sid)")
+        print("Event notify -- sid: \(sid)")
         for field in properties.fields {
-            print("- \(field.key): \(field.value ?? "nil")")
+            print("- \(field.key): \(field.value)")
         }
     }
 
@@ -41,7 +41,7 @@ func main() {
         guard tokens.isEmpty == false else {
             print(" == session ==")
             guard let device = session.device else {
-                print("device is not selected")
+                print("Device is not selected")
                 continue
             }
             print("device -- \(device.udn ?? "nil") \(device.friendlyName ?? "nil")")
@@ -49,7 +49,7 @@ func main() {
                 print(" - \(service.serviceType ?? "nil")")
             }
             guard let service = session.service else {
-                print("service is not selected")
+                print("Service is not selected")
                 continue
             }
             print("service -- \(service.serviceType ?? "nil")")
@@ -63,38 +63,34 @@ func main() {
             cp.sendMsearch(st: tokens[1], mx: 3)
         case "ls":
             print(" == devices (count: \(cp.devices.count)) ==")
-            for device in cp.devices {
+            for device in cp.devices.values {
                 print("* \(device.udn ?? "nil") -- \(device.friendlyName ?? "nil")")
             }
         case "device":
-            guard let idx = Int(tokens[1]) else {
-                print("not integer")
+            let udn = tokens[1]
+            guard let device = cp.devices[udn] else {
+                print("No device with UDN (\(udn))")
                 continue
             }
-            guard idx >= 0 && idx < cp.devices.count else {
-                print("not in range")
-                continue
-            }
-            let device = cp.devices[idx]
-            print("idx: \(idx) -- \(device.udn ?? "nil") \(device.friendlyName ?? "nil")")
+            print("Selected: \(device.udn ?? "nil") \(device.friendlyName ?? "nil")")
             for service in device.services {
                 print(" - service: \(service.serviceType ?? "nil")")
             }
             session.device = device
         case "service":
             guard let device = session.device else {
-                print("device is not selected")
+                print("Device is not selected")
                 continue
             }
             let serviceType = tokens[1]
             guard let service = device.getService(type: serviceType) else {
-                print("no service found -- \(serviceType)")
+                print("No service found -- \(serviceType)")
                 continue
             }
             session.service = service
             print("selected service id -- \(service.serviceId ?? "nil")")
             guard let scpd = service.scpd else {
-                print("no scpd")
+                print("No scpd")
                 continue
             }
             for action in scpd.actions {
@@ -102,55 +98,59 @@ func main() {
             }
         case "invoke":
             guard tokens.count > 1 else {
-                print("action name is required")
+                print("Action name is required")
                 continue
             }
             guard let service = session.service else {
-                print("service is not selected")
+                print("Service is not selected")
                 continue
             }
             guard let scpd = service.scpd else {
-                print("service has no scpd")
+                print("Service has no scpd")
                 continue
             }
             guard let action = scpd.getAction(name: tokens[1]) else {
-                print("no action name -- \(tokens[1])")
+                print("No action name -- \(tokens[1])")
                 continue
             }
-            var properties = [String:String]()
-            for argument in action.inArguments {
+            let properties = OrderedProperties()
+            for argument in action.arguments {
                 guard let name = argument.name else {
+                    continue
+                }
+                guard argument["direction"] == "in" else {
                     continue
                 }
                 print("- in argument: \(name)")
                 guard let argumentValue = readLine() else {
-                    print("failed to read argument value")
+                    print("Failed to read argument value")
                     return
                 }
                 properties[name] = argumentValue
             }
-            cp.invoke(service: service, action: action, properties: properties) {
+            let actionRequest = UPnPActionRequest(actionName: action.name!, fields: properties)
+            cp.invoke(service: service, actionRequest: actionRequest) {
                 (soapResponse) in
                 guard let soapResponse = soapResponse else {
-                    print("no soap response")
+                    print("No soap response")
                     return
                 }
-                print("action response")
+                print("Action response")
                 for field in soapResponse.fields {
-                    print("- \(field.key): \(field.literalValue)")
+                    print("- \(field.key): \(field.value)")
                 }
             }
         case "subscribe":
             guard let service = session.service else {
-                print("service is not selected")
+                print("Service is not selected")
                 continue
             }
             cp.subscribe(service: service) {
                 (subscription) in
-                print("subscribe is done -- \(subscription.sid)")
+                print("Subscribe is done -- \(subscription.sid)")
             }
         default:
-            print("unknown command -- \(tokens[0])")
+            print("Unknown command -- \(tokens[0])")
         }
     }
 

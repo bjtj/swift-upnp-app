@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/bjtj/swift-upnp-tools.git",
         "state": {
           "branch": null,
-          "revision": "d4a54212e09b5da8d1e7c4d705a14a6e6b49b532",
-          "version": "0.1.8"
+          "revision": "334570e4efffc23414b8fa214cd4386e4bb1a69a",
+          "version": "0.1.9"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/bjtj/swift-xml.git",
         "state": {
           "branch": null,
-          "revision": "071298a6dc1e1e7a52018815b0dc45ec3374ea5b",
-          "version": "0.1.8"
+          "revision": "a2c3336b3027cb04e2923073181e0556a2aa49f1",
+          "version": "0.1.9"
         }
       }
     ]

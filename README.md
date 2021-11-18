@@ -1,3 +1,3 @@
-# swift-upnp-app
+# Swift Upnp App
 
-A description of this package.
+A sample swift upnp app

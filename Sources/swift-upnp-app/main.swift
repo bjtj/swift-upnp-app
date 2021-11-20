@@ -118,7 +118,7 @@ func main() {
                 guard let name = argument.name else {
                     continue
                 }
-                guard argument["direction"] == "in" else {
+                guard argument.direction == .input else {
                     continue
                 }
                 print("- in argument: \(name)")
